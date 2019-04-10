@@ -1,5 +1,5 @@
 ---
 - version: v1beta2
-  group: piv.auth.chrisruffalo.github.com
+  group: pivauth.chrisruffalo.github.com
   kind: PivAuthProvider
   playbook: /opt/ansible/playbooks/pivauth.yml
