@@ -1,10 +1,11 @@
 ---
-- hosts: localhost
+- hosts: 
+  - localhost
   tasks:
-  # assert some data is available
-  fail:
-    msg: "No smartcard_ca field provided on PivAuth: {{ metadata.name }}"
-  when: not defined spec.smartcard_ca
+  # assert required spec fields are available
+  - fail:
+      msg: "No smartcard_ca field provided on PivAuth: {{ metadata.name }}"
+    when: not defined spec.smartcard_ca
 
   # create the shared secrets that authenticate the proxy back
   # to the authentication provider (with two-way ssl and host verification)
