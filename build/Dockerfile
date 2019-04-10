@@ -4,9 +4,8 @@ MAINTAINER Chris Ruffalo <cruffalo@redhat.com>
 
 # install OC client
 RUN cd ${HOME} && \
-    curl -L https://mirror.openshift.com/pub/openshift-v3/clients/4.0.22/linux/oc.tar.gz | tar xz && \
-    mv oc /usr/local/bin/oc
-
+    curl -L https://mirror.openshift.com/pub/openshift-v3/clients/4.0.22/linux/oc.tar.gz | tar xz
+    
 # copy watch yaml
 COPY watches.yml ${HOME}/watches.yaml 
 
