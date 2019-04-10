@@ -150,7 +150,7 @@
                 name: "{{ meta.name }}-pivauth-smartcard-ca-mount"
                 readOnly: true
               - mountPath: /client_secrets
-                name: "{{ meta.name }}-pivauth-client-secrets-mount"
+                name: "{{ meta.name }}-pivproxy-proxy-certs-mount"
                 readOnly: true
               - mountPath: /config
                 name: "{{ meta.name }}-pivauth-config-mount"
@@ -164,9 +164,9 @@
               secret:
                 secretName: "{{ meta.name }}-pivauth-smartcard-ca"
                 defaultMode: 440
-            - name: "{{ meta.name }}-pivauth-client-secrets-mount"
+            - name: "{{ meta.name }}-pivproxy-proxy-certs-mount"
               secret:
-                secretName: "{{ meta.name }}-pivauth-client-secrets"
+                secretName: "{{ meta.name }}-pivproxy-proxy-certs"
                 defaultMode: 440
             - name: "{{ meta.name }}-pivauth-config-mount"
               configMap:

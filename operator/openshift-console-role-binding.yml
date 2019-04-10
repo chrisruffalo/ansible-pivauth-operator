@@ -2,10 +2,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: pivauth-operator
-  namespace: ansible-pivauth-operator
+  namespace: openshift-console
 subjects:
 - kind: ServiceAccount
   name: pivauth-operator
+  namespace: ansible-pivauth-operator
 roleRef:
   kind: Role
   name: pivauth-operator

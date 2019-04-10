@@ -3,6 +3,7 @@ kind: Role
 metadata:
   creationTimestamp: null
   name: pivauth-operator
+  namespace: ansible-pivauth-operator
 rules:
 - apiGroups:
   - ""
