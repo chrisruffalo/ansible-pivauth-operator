@@ -17,6 +17,12 @@ rules:
   verbs:
   - '*'
 - apiGroups:
+  - "build.openshift.io"
+  resources:
+  - buildconfigs
+  verbs:
+  - '*'
+- apiGroups:
   - apps
   resources:
   - deployments

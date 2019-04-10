@@ -1,4 +1,15 @@
 ---
+- name: Create image stream for build outputs
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: ImageStream
+      metadata:
+        name: "{{ meta.name }}-pivauth-image"
+        labels:
+          app: "{{ meta.name }}-pivauth"
+
 - name: Add build configuration for value
   k8s:
     state: present
@@ -25,3 +36,8 @@
           to:
             kind: ImageStreamTag
             name: "{{ meta.name }}-pivauth-image:latest"
+  register: present_bc
+
+- name: Kick off the new build if a change was made to the build configuration
+  command: "/opt/ansible/oc start-build {{ meta.name }}-pivauth-bc"
+  when: present_bc is changed
