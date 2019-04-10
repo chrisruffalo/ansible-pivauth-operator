@@ -13,11 +13,11 @@
   - debug:
       var: hostvars[inventory_hostname]
   - debug:
-      var: metadata
+      var: meta
 
   # assert required spec fields are available
   - fail:
-      msg: "No smartcard_ca field provided on PivAuth: {{ metadata.name }}"
+      msg: "No smartcard_ca field provided on PivAuth: {{ meta.name }}"
     when: smartcard_ca is not defined
 
   # create the shared secrets that authenticate the proxy back
