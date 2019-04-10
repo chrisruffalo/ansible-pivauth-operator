@@ -33,7 +33,7 @@ rules:
   - get
   - create
 - apiGroups:
-  - pivauth.chrisruffalo.github.com
+  - chrisruffalo.github.com
   resources:
   - '*'
   verbs:

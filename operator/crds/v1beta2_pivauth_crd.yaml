@@ -4,12 +4,17 @@ metadata:
   name: pivauths.chrisruffalo.github.com
 spec:
   group: chrisruffalo.github.com
+  versions:
+    - name: v1beta2
+      served: true
+      storage: true
   names:
     kind: PivAuth
     listKind: PivAuthList
     plural: pivauths
     singular: pivauth
+    shortNames:
+    - pva
   scope: Namespaced
-  version: v1beta2
   subresources:
     status: {}

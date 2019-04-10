@@ -1,0 +1,6 @@
+apiVersion: chrisruffalo.github.com/v1beta2
+kind: PivAuth
+metadata:
+  name: pivauth-example
+spec:
+  size: 3
