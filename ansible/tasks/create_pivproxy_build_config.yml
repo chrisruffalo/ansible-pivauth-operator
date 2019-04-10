@@ -7,6 +7,7 @@
       kind: ImageStream
       metadata:
         name: "{{ meta.name }}-pivauth-image"
+        namespace: "{{ meta.namespace }}"
         labels:
           app: "{{ meta.name }}-pivauth"
 

@@ -17,6 +17,13 @@ rules:
   verbs:
   - '*'
 - apiGroups:
+  - "image.openshift.io"
+  resources:
+  - imagestreams
+  - imagestreamtags
+  verbs:
+  - '*'
+- apiGroups:
   - "build.openshift.io"
   resources:
   - buildconfigs
