@@ -1,18 +1,24 @@
 ---
 - hosts: 
   - localhost
+  vars:
+    # default to deploying 1 pod
+    size: 1
+    # use rhel7 as the default deployment
+    flavor: rhel7
+    # enable rhcsl to allow for newer httpd version deployment
+    rhcsl: false
   tasks:
   # show vars
   - debug:
       var: hostvars[inventory_hostname]
-
   - debug:
       var: metadata
 
   # assert required spec fields are available
   - fail:
       msg: "No smartcard_ca field provided on PivAuth: {{ metadata.name }}"
-    when: not defined smartcard_ca
+    when: smartcard_ca is not defined
 
   # create the shared secrets that authenticate the proxy back
   # to the authentication provider (with two-way ssl and host verification)
