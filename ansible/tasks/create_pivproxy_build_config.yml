@@ -1,0 +1,27 @@
+---
+- name: Add build configuration for value
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: BuildConfig
+      metadata:
+        name: "{{ meta.name }}-pivauth-bc"
+        namespace: "{{ meta.namespace }}"
+        labels:
+          app: "{{ meta.name }}-pivauth"
+      spec:
+        runPolicy: Serial
+        source:
+          type: Git
+          git:
+            uri: "{{ ose_pivproxy_git }}"
+            ref: master
+        strategy:
+          type: Docker
+          dockerStrategy:
+            dockerfilePath: "Dockerfile.{{ if flavor=='rhel' 'rhel' else '' }}"
+        output:
+          to:
+            kind: ImageStreamTag
+            name: "{{ meta.name }}-pivauth-image:latest"
