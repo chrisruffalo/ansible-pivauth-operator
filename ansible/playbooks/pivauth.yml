@@ -5,7 +5,7 @@
     # namespace from meta namespace
     namespace: "{{ meta.namespace | default('pivauth') }}"
     # default to deploying 1 pod
-    size: 1
+    replicas: 1
     # use rhel as the default deployment
     flavor: rhel
     # enable rhcsl to allow for newer httpd version deployment
@@ -18,7 +18,7 @@
       msg: "No smartcard_ca field provided on PivAuth: {{ meta.name }}"
     when: smartcard_ca is not defined
 
-  # require external url
+  # require master url ???
 
   # create the shared secrets that authenticate the proxy back
   # to the authentication provider (with two-way ssl and host verification)

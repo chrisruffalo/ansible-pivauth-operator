@@ -3,4 +3,36 @@ kind: PivAuth
 metadata:
   name: pivauth-example
 spec:
-  size: 3
+  # (required) the external/public url for console/ui/login endpoint
+  console_url: 
+  # (required) the CA bundle that trusts the smartcards/pivs/cacs you want to accept
+  smartcard_ca: |
+    -----BEGIN CERTIFICATE-----
+    MIIDjDCCAnSgAwIBAgIJAI/wSjoGLnmnMA0GCSqGSIb3DQEBDQUAMFsxCzAJBgNV
+    BAYTAlNDMRcwFQYDVQQIDA5Tb3V0aCBDYXJvbGluYTEVMBMGA1UEBwwMRGVmYXVs
+    dCBDaXR5MRwwGgYDVQQKDBNEZWZhdWx0IENvbXBhbnkgTHRkMB4XDTE4MDkyODE3
+    MjYxMloXDTIxMDcxODE3MjYxMlowWzELMAkGA1UEBhMCU0MxFzAVBgNVBAgMDlNv
+    dXRoIENhcm9saW5hMRUwEwYDVQQHDAxEZWZhdWx0IENpdHkxHDAaBgNVBAoME0Rl
+    ZmF1bHQgQ29tcGFueSBMdGQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+    AQDfwKxbAomeOkKvV4Y/udg2KhTO4fG15TATUVqEjBB7npXifH4o4ekqoieE2DAl
+    kwrUlGd46fi4T6H8wuo/wJDGx6N4FeQ9MM1qi+qpaJqk9LdGg1TZ6hX3ZTqcqEUF
+    HNtnAXvjpCyG8whtD2hO29ENQ0CxccMwY7RaAknzywM1lpaaeVW42XIkNmV9p8ZG
+    zkOyVSU3U8iJrPc/NcSAXtG3WXhb4wD3OyEFFHlT6ClTFsgqgmBxl/xsasG0qixh
+    keAMNtu/Ay7p0Sk+zvbsi/qjBp326J1g6bpFIfB9aBrLMqYzST/PEV5BHsbSX7D/
+    9Tr6LJvjR4zg370zo+ZbvZdBAgMBAAGjUzBRMB0GA1UdDgQWBBQNIKCZZWiBxGxM
+    gzYqcneQ+YBNhzAfBgNVHSMEGDAWgBQNIKCZZWiBxGxMgzYqcneQ+YBNhzAPBgNV
+    HRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBDQUAA4IBAQCkRCnrF9Tvkr94EqL86LpV
+    /oTYvbnwl2WwbuwsbqzzWW/QONDZ/nkcDZInSmi1wTkCvd4u7fBBd7uTn1KH3OO2
+    nb1kdV1wOOMobtc1tjRhQWRt8RtWNjtJdQcpBkcpl2OIJB5X/UJNvVfD3AmwVGIQ
+    9p9Wll4SzI4idDTtJ4El4DOGqf1twIylvM5H5Ct+yZaw6CcmjnOOUJIS3DU4NWVa
+    5rnQyl5qo+mEJKu5KNNT24M0knc8DlO0Dk6ukcEB7+k5pzVvFpFFcuovXSvCo+mi
+    4e6GvvDypWNGNDToih6nVMtvNu+NXC0O4yxQdF+HCpofFHlwoaVycbJGU+twP8eH
+    -----END CERTIFICATE-----
+  # can be rhel or centos
+  flavor: centos
+  # number of pods to spin up
+  replicas: 1
+  # should we enable rhcsl for newer httpd
+  rhcsl: false
+  # the url to use for the authentication endpoint (if blank, will be assigned)
+  #auth_url: 
