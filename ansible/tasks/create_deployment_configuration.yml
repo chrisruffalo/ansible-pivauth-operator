@@ -115,7 +115,7 @@
           spec:
             containers:
             - name: pivauth-proxy
-              image: "{{ meta.name }}-pivauth-image:latest"
+              image: "image-registry.openshift-image-registry.svc:5000/{{ namespace }}/{{ meta.name }}-pivauth-image:latest"
               ports:
               - containerPort: 8080
                 protocol: TCP
