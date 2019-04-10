@@ -9,9 +9,9 @@
 
   # create the shared secrets that authenticate the proxy back
   # to the authentication provider (with two-way ssl and host verification)
-  - include_task: tasks/create_auth_provider_shared_secrets.yml
+  - include_tasks: tasks/create_auth_provider_shared_secrets.yml
 
   # create the secret to hold the smartcard
-  - include_task: tasks/create_smartcard_ca_secret.yml
+  - include_tasks: tasks/create_smartcard_ca_secret.yml
 
 
