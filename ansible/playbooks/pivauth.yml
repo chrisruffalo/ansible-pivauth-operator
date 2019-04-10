@@ -2,6 +2,8 @@
 - hosts: 
   - localhost
   vars:
+    # namespace from meta namespace
+    namespace: "{{ namespace | default(meta.namespace) }}"
     # default to deploying 1 pod
     size: 1
     # use rhel7 as the default deployment
@@ -32,6 +34,6 @@
   - include_tasks: tasks/create_deployment_configuration.yml
 
   # inject the identity provider into the master
-  
+
 
 

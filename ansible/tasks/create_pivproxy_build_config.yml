@@ -7,7 +7,7 @@
       kind: ImageStream
       metadata:
         name: "{{ meta.name }}-pivauth-image"
-        namespace: "{{ meta.namespace }}"
+        namespace: "{{ namespace }}"
         labels:
           app: "{{ meta.name }}-pivauth"
 
@@ -19,7 +19,7 @@
       kind: BuildConfig
       metadata:
         name: "{{ meta.name }}-pivauth-bc"
-        namespace: "{{ meta.namespace }}"
+        namespace: "{{ namespace }}"
         labels:
           app: "{{ meta.name }}-pivauth"
       spec:
