@@ -5,10 +5,10 @@ metadata:
 spec:
   group: chrisruffalo.github.com
   names:
-    kind: PivAuthProvider
-    listKind: PivAuthProviderList
-    plural: PivAuthProviders
-    singular: PivAuthProvider
+    kind: PivAuth
+    listKind: PivAuthList
+    plural: pivauths
+    singular: pivauth
   scope: Namespaced
   version: v1alpha1
   subresources:
