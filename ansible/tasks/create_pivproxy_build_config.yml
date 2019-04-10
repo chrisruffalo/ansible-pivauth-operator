@@ -32,7 +32,7 @@
         strategy:
           type: Docker
           dockerStrategy:
-            dockerfilePath: "Dockerfile.{{ 'rhel' if flavor=='rhel' else '' }}"
+            dockerfilePath: "Dockerfile{{ '.rhel7' if flavor == 'rhel' else '' }}"
         output:
           to:
             kind: ImageStreamTag

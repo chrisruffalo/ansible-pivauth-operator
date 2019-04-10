@@ -6,8 +6,8 @@
     namespace: "{{ namespace | default(meta.namespace) }}"
     # default to deploying 1 pod
     size: 1
-    # use rhel7 as the default deployment
-    flavor: rhel7
+    # use rhel as the default deployment
+    flavor: rhel
     # enable rhcsl to allow for newer httpd version deployment
     rhcsl: false
     # git, todo: move into this repo and make better use of variables
