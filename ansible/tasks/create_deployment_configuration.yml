@@ -11,6 +11,7 @@
         labels:
           app: "{{ meta.name }}-pivauth"
         name: "{{ meta.name }}-pivauth-service"
+        namespace: "{{ namespace }}"
       spec:
         type: ClusterIP
         ports:
@@ -31,6 +32,7 @@
         labels:
           app: "{{ meta.name }}-pivauth"
         name: "{{ meta.name }}-pivauth-route"
+        namespace: "{{ namespace }}"
       spec:
         port:
           targetPort: "{{ meta.name }}-pivauth-port"
@@ -53,6 +55,7 @@
         labels:
           app: "{{ meta.name }}-pivauth"
         name: "{{ meta.name }}-pivauth-route"
+        namespace: "{{ namespace }}"        
       spec:
         host: "{{ auth_url }}"
         port:
@@ -84,6 +87,7 @@
         labels:
           app: "{{ meta.name }}-pivauth"
         name: "{{ meta.name }}-pivauth-config"
+        namespace: "{{ namespace }}"
       data: {} # empty data as a placeholder      
 
 - name: "Create deployment for application"
@@ -94,6 +98,7 @@
       kind: Deployment
       metadata:
         name: "{{ meta.name }}-pivauth-proxy"
+        namespace: "{{ namespace }}"
         labels:
           app: "{{ meta.name }}-pivauth"
       spec:
