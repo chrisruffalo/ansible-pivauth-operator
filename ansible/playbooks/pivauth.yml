@@ -1,7 +1,16 @@
 ---
 - hosts: localhost
   tasks:
-  - debug:
-      var: hostvars[inventory_hostname]
-  - debug: 
-      var: meta
+  # assert some data is available
+  fail:
+    msg: "No smartcard_ca field provided on PivAuth: {{ metadata.name }}"
+  when: not defined metadata.smartcard_ca
+
+  # create the shared secrets that authenticate the proxy back
+  # to the authentication provider (with two-way ssl and host verification)
+  - include_task: tasks/create_auth_provider_shared_secrets.yml
+
+  # create the secret to hold the smartcard
+  - include_task: tasks/create_smartcard_ca_secret.yml
+
+
