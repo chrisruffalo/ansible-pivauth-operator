@@ -2,6 +2,13 @@
 - hosts: 
   - localhost
   tasks:
+  # show vars
+  - debug:
+      var: hostvars[inventory_hostname]
+
+  - debug:
+      var: metadata
+
   # assert required spec fields are available
   - fail:
       msg: "No smartcard_ca field provided on PivAuth: {{ metadata.name }}"
