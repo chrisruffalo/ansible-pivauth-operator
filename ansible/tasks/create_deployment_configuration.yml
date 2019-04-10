@@ -69,13 +69,15 @@
         wildcardPolicy: None      
   when: auth_url is defined
 
-- name: "Read auth URL from Route"
+- name: "Read auth URLs from Route"
   set_fact:
-    route_auth_url: "{{ lookup('k8s', kind='Route', namespace=namespace, resource_name=meta.name + '-pivauth-route') }}"
+    auth_route: "{{ lookup('k8s', kind='Route', namespace=namespace, resource_name=meta.name + '-pivauth-route') }}"
+    console_route: "{{ lookup('k8s', kind='Route', namespace='openshift-console', resource_name='console') }}"
 
 - name: "Use auth URL from Route"
-  debug:
-    var: route_auth_url
+  set_fact:
+    auth_url: "{{ auth_route.spec.host }}"
+    console_url: "{{ console_route.spec.host }}"
 
 - name: "Create configuration data"
   k8s:
@@ -121,7 +123,7 @@
                 protocol: TCP
               env:
               - name: PIVPROXY_PUBLIC_URL
-                value: "{{ auth_url | default('') }}" #todo: fixme
+                value: "{{ auth_url }}"
               - name: MASTER_PUBLIC_URL
                 value: "{{ console_url }}"
               - name: BASE_NAME

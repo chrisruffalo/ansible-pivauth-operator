@@ -18,8 +18,6 @@
       msg: "No smartcard_ca field provided on PivAuth: {{ meta.name }}"
     when: smartcard_ca is not defined
 
-  # require master url ???
-
   # create the shared secrets that authenticate the proxy back
   # to the authentication provider (with two-way ssl and host verification)
   - include_tasks: tasks/create_auth_provider_shared_secrets.yml

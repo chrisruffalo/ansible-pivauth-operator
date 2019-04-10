@@ -3,8 +3,6 @@ kind: PivAuth
 metadata:
   name: pivauth-example
 spec:
-  # (required) the external/public url for console/ui/login endpoint
-  console_url: 
   # (required) the CA bundle that trusts the smartcards/pivs/cacs you want to accept
   smartcard_ca: |
     -----BEGIN CERTIFICATE-----
