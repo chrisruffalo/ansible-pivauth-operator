@@ -16,6 +16,8 @@
       msg: "No smartcard_ca field provided on PivAuth: {{ meta.name }}"
     when: smartcard_ca is not defined
 
+  # require external url
+
   # create the shared secrets that authenticate the proxy back
   # to the authentication provider (with two-way ssl and host verification)
   - include_tasks: tasks/create_auth_provider_shared_secrets.yml
@@ -25,5 +27,11 @@
 
   # build configuration for the httpd proxy container
   - include_tasks: tasks/create_pivproxy_build_config.yml
+
+  # create the deployment configuration
+  - include_tasks: tasks/create_deployment_configuration.yml
+
+  # inject the identity provider into the master
+  
 
 
