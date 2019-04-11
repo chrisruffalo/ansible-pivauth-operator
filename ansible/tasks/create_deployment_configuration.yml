@@ -45,30 +45,45 @@
         wildcardPolicy: None      
   when: auth_url is not defined
 
-- name: "Create route at {{ auth_url | default ('undefined/skip') }} for service"
-  k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Route
-      metadata:
-        labels:
-          app: "{{ meta.name }}-pivauth"
-        name: "{{ meta.name }}-pivauth-route"
-        namespace: "{{ namespace }}"        
-      spec:
-        host: "{{ auth_url }}"
-        port:
-          targetPort: "{{ meta.name }}-pivauth-port"
-        tls:
-          termination: passthrough
-        to:
-          kind: Service
-          name: "{{ meta.name }}-pivauth-service"
-          weight: 100
-        wildcardPolicy: None      
+# read url and decide if it is different, if it is delete the route and remake it
+block:
+  - name: "Check auth route"
+    set_fact:
+      check_auth_route: "{{ lookup('k8s', kind='Route', namespace=namespace, resource_name=meta.name + '-pivauth-route') }}"
+
+  - name: "Delete route if it is already there"
+    k8s:
+      state: absent
+      name: "{{ meta.name }}-pivauth-route"
+      namespace: "{{ namespace }}"
+      api_version: v1
+    when: check_auth_route | default([]) | length < 1
+
+  - name: "Create route at {{ auth_url | default ('undefined/skip') }} for service"
+    k8s:
+      state: present
+      definition:
+        apiVersion: v1
+        kind: Route
+        metadata:
+          labels:
+            app: "{{ meta.name }}-pivauth"
+          name: "{{ meta.name }}-pivauth-route"
+          namespace: "{{ namespace }}"        
+        spec:
+          host: "{{ auth_url }}"
+          port:
+            targetPort: "{{ meta.name }}-pivauth-port"
+          tls:
+            termination: passthrough
+          to:
+            kind: Service
+            name: "{{ meta.name }}-pivauth-service"
+            weight: 100
+          wildcardPolicy: None      
   when: auth_url is defined
 
+# this unifies the logic and allows us to read the host from one that was picked automatically
 - name: "Read auth URLs from Route"
   set_fact:
     auth_route: "{{ lookup('k8s', kind='Route', namespace=namespace, resource_name=meta.name + '-pivauth-route') }}"
