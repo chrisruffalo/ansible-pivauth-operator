@@ -46,7 +46,7 @@
   when: auth_url is not defined
 
 # read url and decide if it is different, if it is delete the route and remake it
-block:
+- block:
   - name: "Check auth route"
     set_fact:
       check_auth_route: "{{ lookup('k8s', kind='Route', namespace=namespace, resource_name=meta.name + '-pivauth-route') }}"
