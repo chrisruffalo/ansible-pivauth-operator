@@ -8,11 +8,7 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - pods
   - services
-  - endpoints
-  - persistentvolumeclaims
-  - events
   - configmaps
   - secrets
   verbs:
@@ -42,18 +38,8 @@ rules:
   - apps
   resources:
   - deployments
-  - daemonsets
-  - replicasets
-  - statefulsets
   verbs:
   - '*'
-- apiGroups:
-  - monitoring.coreos.com
-  resources:
-  - servicemonitors
-  verbs:
-  - get
-  - create
 - apiGroups:
   - chrisruffalo.github.com
   resources:

@@ -1,13 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   creationTimestamp: null
   name: pivauth-operator
-  namespace: openshift-config
 rules:
 - apiGroups:
-  - ""
+  - "config.openshift.io"
   resources:
-  - configmaps
+  - oauths
   verbs:
   - '*'
