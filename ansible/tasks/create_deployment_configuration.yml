@@ -56,6 +56,7 @@
       state: absent
       name: "{{ meta.name }}-pivauth-route"
       namespace: "{{ namespace }}"
+      kind: Route
       api_version: v1
     when: check_auth_route | default([]) | length > 1
 
