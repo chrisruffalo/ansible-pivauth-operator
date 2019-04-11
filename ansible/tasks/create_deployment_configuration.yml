@@ -20,7 +20,7 @@
           protocol: TCP
           targetPort: 8443
         selector:
-          app: "{{ meta.name }}-pivauth"
+          name: "{{ meta.name }}-pivauth"
 
 - name: Create default route for service
   k8s:
@@ -119,15 +119,18 @@
         namespace: "{{ namespace }}"
         labels:
           app: "{{ meta.name }}-pivauth"
+          name: "{{ meta.name }}-pivauth"
       spec:
         replicas: "{{ replicas }}"
         selector:
           matchLabels:
             app: "{{ meta.name }}-pivauth"
+            name: "{{ meta.name }}-pivauth"
         template:
           metadata:
             labels:
               app: "{{ meta.name }}-pivauth"
+              name: "{{ meta.name }}-pivauth"
           spec:
             containers:
             - name: pivauth-proxy
