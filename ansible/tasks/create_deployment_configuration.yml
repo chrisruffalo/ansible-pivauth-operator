@@ -20,7 +20,7 @@
           protocol: TCP
           targetPort: 8443
         selector:
-          name: "{{ meta.name }}-pivauth"
+          app: "{{ meta.name }}-pivauth"
 
 - name: Create default route for service
   k8s:
@@ -85,10 +85,11 @@
   when: auth_url is defined
 
 # this unifies the logic and allows us to read the host from one that was picked automatically
+# (and reads the authentication url)
 - name: "Read auth URLs from Route"
   set_fact:
     auth_route: "{{ lookup('k8s', kind='Route', namespace=namespace, resource_name=meta.name + '-pivauth-route') }}"
-    console_route: "{{ lookup('k8s', kind='Route', namespace='openshift-console', resource_name='console') }}"
+    console_route: "{{ lookup('k8s', kind='Route', namespace='openshift-authentication', resource_name='openshift-authentication') }}"
 
 - name: "Use auth URL from Route"
   set_fact:
