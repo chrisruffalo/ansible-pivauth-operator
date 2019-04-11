@@ -20,7 +20,7 @@
           protocol: TCP
           targetPort: 8443
         selector:
-          name: "{{ meta.name }}-pivauth"
+          app: "{{ meta.name }}-pivauth"
 
 - name: Create default route for service
   k8s:
