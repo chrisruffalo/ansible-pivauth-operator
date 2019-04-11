@@ -10,7 +10,7 @@
     state: present
     definition:
       apiVersion: v1
-      kind: Secret
+      kind: ConfigMap
       metadata:
         name: "{{ meta.name }}-pivauth-proxyca"
         namespace: "openshift-config"
@@ -18,7 +18,7 @@
           app: "{{ meta.name }}-pivauth"
       type: opaque
       data:
-        "clientCA": "{{ proxy_certs_secret.data['proxyca.crt'] }}"
+        "ca.crt": "{{ proxy_certs_secret.data['proxyca.crt'] }}"
 
 # create identity provider
 - name: Add identity provider to openshift-config namespace
@@ -28,23 +28,22 @@
       apiVersion: config.openshift.io/v1
       kind: OAuth
       metadata:
-        name: "{{ meta.name }}-pivauth-oauth"
+        name: "cluster"
         namespace: "openshift-config"
         labels:
-          app: "{{ meta.name }}-pivauth"        
+          app: "{{ meta.name }}-pivauth"
       spec:
         identityProviders:
         - name: "{{ meta.name }}-pivauth-provider"
-          login: true
-          challenge: false
-          type: RequestHeaderIdentityProvider
-          challengeURL: "https://{{ auth_url }}/challenging-proxy/oauth/authorize?${query}"
-          loginURL: "https://{{ auth_url }}/login-proxy/oauth/authorize?${query}"
-          clientCA:
-            fileData:
-              name: "{{ meta.name }}-pivauth-proxyca" 
-          clientCommonNames:
-          - "{{ auth_url }}"
-          - system:proxy
-          headers:
-          - X-Remote-User
+          type: RequestHeader
+          requestHeader:
+            login: true
+            challenge: false
+            challengeURL: "https://{{ auth_url }}/challenging-proxy/oauth/authorize?${query}"
+            loginURL: "https://{{ auth_url }}/login-proxy/oauth/authorize?${query}"
+            ca: "{{ meta.name }}-pivauth-proxyca"
+            clientCommonNames:
+            - "{{ auth_url }}"
+            - system:proxy
+            headers:
+            - X-Remote-User
