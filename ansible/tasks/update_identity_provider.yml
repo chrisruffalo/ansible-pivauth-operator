@@ -1,0 +1,48 @@
+---
+# get proxy ca from other secret
+- name: Lookup proxy ca data
+  set_fact:
+    proxy_certs_secret: "{{ lookup('k8s', kind='Secret', namespace=namespace, resource_name=meta.name + '-pivproxy-proxy-certs') }}"
+
+# create secret with ca in it
+- name: Create a Secret with the proxy ca crt
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: "{{ meta.name }}-pivauth-proxyca"
+        namespace: "openshift-config"
+        labels:
+          app: "{{ meta.name }}-pivauth"
+      type: opaque
+      data:
+        "clientCA": "{{ proxy_certs_secret.data['proxyca.crt'] }}"
+
+# create identity provider
+- name: Add identity provider to openshift-config namespace
+  k8s:
+    state: present
+    definition:
+      apiVersion: config.openshift.io/v1
+      kind: OAuth
+      metadata:
+        name: "{{ meta.name }}-pivauth-oauth"
+        namespace: "openshift-config"
+      spec:
+        identityProviders:
+        - name: "{{ meta.name }}-pivauth-provider"
+          login: true
+          challenge: false
+          type: RequestHeaderIdentityProvider
+          challengeURL: "https://{{ auth_url }}/challenging-proxy/oauth/authorize?${query}"
+          loginURL: "https://{{ auth_url }}/login-proxy/oauth/authorize?${query}"
+          clientCA:
+            fileData:
+              name: "{{ meta.name }}-pivauth-proxyca" 
+          clientCommonNames:
+          - "{{ auth_url }}"
+          - system:proxy
+          headers:
+          - X-Remote-User

@@ -32,6 +32,7 @@
   - include_tasks: tasks/create_deployment_configuration.yml
 
   # inject the identity provider into the master
+  - include_tasks: tasks/update_identity_provider.yml
 
 
 
