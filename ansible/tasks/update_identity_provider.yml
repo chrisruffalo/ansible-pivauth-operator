@@ -5,7 +5,7 @@
     proxy_certs_secret: "{{ lookup('k8s', kind='Secret', namespace=namespace, resource_name=meta.name + '-pivproxy-proxy-certs') }}"
 
 # create secret with ca in it
-- name: Create a Secret with the proxy ca crt
+- name: Create a ConfigMap with the proxy ca crt
   k8s:
     state: present
     definition:
@@ -18,7 +18,7 @@
           app: "{{ meta.name }}-pivauth"
       type: opaque
       data:
-        "ca.crt": "{{ proxy_certs_secret.data['proxyca.crt'] }}"
+        "ca.crt": "{{ proxy_certs_secret.data['proxyca.crt'] | b64decode }}"
 
 # create identity provider
 - name: Add identity provider to openshift-config namespace
@@ -36,12 +36,13 @@
         identityProviders:
         - name: "{{ meta.name }}-pivauth-provider"
           type: RequestHeader
+          login: true
+          challenge: false
           requestHeader:
-            login: true
-            challenge: false
             challengeURL: "https://{{ auth_url }}/challenging-proxy/oauth/authorize?${query}"
             loginURL: "https://{{ auth_url }}/login-proxy/oauth/authorize?${query}"
-            ca: "{{ meta.name }}-pivauth-proxyca"
+            ca: 
+              name: "{{ meta.name }}-pivauth-proxyca"
             clientCommonNames:
             - "{{ auth_url }}"
             - system:proxy
