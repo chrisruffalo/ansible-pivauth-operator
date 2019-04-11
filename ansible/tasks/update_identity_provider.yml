@@ -30,6 +30,8 @@
       metadata:
         name: "{{ meta.name }}-pivauth-oauth"
         namespace: "openshift-config"
+        labels:
+          app: "{{ meta.name }}-pivauth"        
       spec:
         identityProviders:
         - name: "{{ meta.name }}-pivauth-provider"

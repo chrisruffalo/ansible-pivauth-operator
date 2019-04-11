@@ -9,6 +9,11 @@ rules:
   - ""
   resources:
   - secrets
+  verbs:
+  - '*'
+- apiGroups:
+  - "config.openshift.io"
+  resources:
   - oauths
   verbs:
   - '*'
