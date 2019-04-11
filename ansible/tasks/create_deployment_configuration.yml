@@ -96,6 +96,20 @@
     auth_url: "{{ auth_route.spec.host }}"
     console_url: "{{ console_route.spec.host }}"
 
+- name: "Use blank configuration data"
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        labels:
+          app: "{{ meta.name }}-pivauth"
+        name: "{{ meta.name }}-pivauth-config"
+        namespace: "{{ namespace }}"
+      data: {}
+  when: config is not defined
+
 - name: "Create configuration data"
   k8s:
     state: present
@@ -107,7 +121,9 @@
           app: "{{ meta.name }}-pivauth"
         name: "{{ meta.name }}-pivauth-config"
         namespace: "{{ namespace }}"
-      data: {} # empty data as a placeholder      
+      data:
+        pivproxy.conf: "{{ config }}"
+  when: config is defined
 
 - name: "Create deployment for application"
   k8s:
