@@ -47,7 +47,7 @@
 
 # read url and decide if it is different, if it is delete the route and remake it
 - block:
-  - name: "Check auth route"
+  - name: "Check for existing auth route"
     set_fact:
       check_auth_route: "{{ lookup('k8s', kind='Route', namespace=namespace, resource_name=meta.name + '-pivauth-route') }}"
 
@@ -57,7 +57,7 @@
       name: "{{ meta.name }}-pivauth-route"
       namespace: "{{ namespace }}"
       api_version: v1
-    when: check_auth_route | default([]) | length < 1
+    when: check_auth_route | default([]) | length > 1
 
   - name: "Create route at {{ auth_url | default ('undefined/skip') }} for service"
     k8s:
