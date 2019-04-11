@@ -3,12 +3,12 @@ kind: Role
 metadata:
   creationTimestamp: null
   name: pivauth-operator
-  namespace: openshift-authentication
+  namespace: kube-system
 rules:
 - apiGroups:
-  - "route.openshift.io"
+  - ""
   resources:
-  - routes
+  - configmaps
   verbs:
   - 'get'
   - 'list'
